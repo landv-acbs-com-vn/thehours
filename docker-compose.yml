@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  www:
+    container_name: apache-php
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    environment:
+        - ALLOW_OVERRIDE=true
+    depends_on:
+      - db
+    volumes:
+      - ./php/src:/var/www/html/
+      - ./php/src/.htaccess:/var/www/html/.htaccess
+      - ./debug/apache-log:/var/log/apache2
+    ports:
+      - 8000:80
+  db:
+    container_name: db
+    image: mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: '@mySql123'
+      MYSQL_DATABASE: thehours
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Admin123
+    volumes:
+      - ./store:/var/lib/mysql
+      - ./debug/mysql-log:/var/log/mysql
+    ports:
+      - "9906:3306"
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    ports: 
+      - '8080:80'
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: '@mySql123'
+    depends_on: 
+      - db
+    links: 
+      - db:db
+    
