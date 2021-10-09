@@ -17,7 +17,9 @@ services:
       - 8000:80
   db:
     container_name: db
-    image: mysql
+    build: 
+      context: ./mysql
+      dockerfile: Dockerfile
     restart: always
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -28,6 +30,7 @@ services:
     volumes:
       - ./store:/var/lib/mysql
       - ./debug/mysql-log:/var/log/mysql
+      - ./mysql/config/conf.d:/etc/mysql/conf.d
     ports:
       - "9906:3306"
   phpmyadmin:
