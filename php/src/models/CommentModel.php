@@ -1,4 +1,3 @@
-<!-- MODEL POST -->
 <?php
 require_once(ROOT_PATH . "/include/config.php");
 

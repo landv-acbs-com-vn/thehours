@@ -105,10 +105,10 @@ if (isset($_GET['PublishToggleId'])) {
     global $conn;
     $sql = "UPDATE posts SET `IsPublished`"."='".$_GET['IsPublished']."'  WHERE id='".$_GET['PublishToggleId']. "'";
     unset($_GET['IsPublished'], $_GET['PublishToggleId']);
+	
     $result = mysqli_query($conn, $sql);
-    echo $sql;
     if ($result) {
-        header("location: " . BASE_URL . "manage-posts/");
+        header("Location: " . BASE_URL . "manage-posts/");
         exit(0);
     }
 }

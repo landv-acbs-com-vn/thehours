@@ -79,7 +79,7 @@ if (isset($_GET['id'])) {
                             <span><i class="fas fa-user"></i></span>
                             <?php echo $user['fullname']; ?>
                             <!-- edit post link if loggin user is author -->
-                            <?php if (intval($post['user_id']) === intval($_SESSION['user_id'])) { ?>
+                            <?php if (isset($_SESSION['user_id']) && intval($post['user_id']) === intval($_SESSION['user_id'])) { ?>
                                 <a href="<?php echo BASE_URL . 'edit-post/' . $post['id']; ?>">  Edit post?</a>
                             <?php } ?>
                         </div>

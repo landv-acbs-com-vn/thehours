@@ -1,0 +1,83 @@
+type: Microsoft.ContainerInstance/containerGroups
+apiVersion: 2019-12-01
+location: southeastasia
+tags: {Name: thehours}
+name: thehoursContainerGroup
+properties:
+  containers:
+  - name: aci-webserver
+    properties:
+      image: thehourspublicregistry.azurecr.io/apache-php:1.4
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      ports:
+      - protocol: tcp
+        port: 80
+      volumeMounts:
+      # - mountPath: /var/www/html
+      #   name: source-php
+      - mountPath: /var/log/apache2
+        name: log-apache
+  - name: aci-database
+    properties:
+      image: mysql
+      ports:
+      - protocol: tcp
+        port: 3306
+      environmentVariables:
+      - name: MYSQL_ROOT_PASSWORD
+        value: '@mySql123'
+      - name: MYSQL_DATABASE
+        value: thehours
+      - name: MYSQL_USER
+        value: admin
+      - name: MYSQL_PASSWORD
+        value: Admin123
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: store-mysql
+  - name: aci-adminer-database
+    properties:
+      image: adminer
+      ports:
+      - protocol: tcp
+        port: 8080
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+  osType: Linux
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: 80
+    - protocol: tcp
+      port: 8080
+    dnsNameLabel: thehours
+  volumes:
+  # - name: source-php
+  #   azureFile:
+  #     sharename: php
+  #     storageAccountName: thehoursaccount
+  #     storageAccountKey: P+SklvnF8VKY28ycOOH4xDrkw8vJiFN9MDBivc1n1GR4cGwnF7N1BJmdkAEPNl0JSYEogw3Nbp/OZMY4BYeCtw==
+  - name: store-mysql
+    azureFile:
+      sharename: mysql
+      storageAccountName: thehoursaccount
+      storageAccountKey: P+SklvnF8VKY28ycOOH4xDrkw8vJiFN9MDBivc1n1GR4cGwnF7N1BJmdkAEPNl0JSYEogw3Nbp/OZMY4BYeCtw==
+  - name: log-apache
+    azureFile:
+      sharename: logs
+      storageAccountName: thehoursaccount
+      storageAccountKey: P+SklvnF8VKY28ycOOH4xDrkw8vJiFN9MDBivc1n1GR4cGwnF7N1BJmdkAEPNl0JSYEogw3Nbp/OZMY4BYeCtw==
+  imageRegistryCredentials:
+    - server: thehourspublicregistry.azurecr.io
+      username: thehoursPublicRegistry
+      password: daAvd4ECYb29Q4EhDoKMddctxpdkJ+iQ
