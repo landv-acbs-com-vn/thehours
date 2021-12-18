@@ -12,6 +12,7 @@ if (isset($_GET['delete_id'])) {
     }
 }
 
+$env_deployment = 'ACI' // Remember to change for each environment implement
 //add post
 if (isset($_POST['add-post'])) {
     global $conn;
@@ -21,15 +22,20 @@ if (isset($_POST['add-post'])) {
     if (count($errors) == 0) {
         if (!empty($_FILES['image_path']['name'])) {
             $image_name = time() . '_' . $_FILES['image_path']['name'];
+
             $destination = ROOT_PATH. "/uploads/images/" . $image_name;
-
+    
             $result = move_uploaded_file($_FILES['image_path']['tmp_name'], $destination);
-
+    
             if ($result) {
                 $_POST['image_path'] = "./uploads/images/" . $image_name;//update path mới
+
+                require 'upload_picasa.php'
+                $_POST['iamge_path'] = upload_picasa($_POST['image_path'])
             } else {
                 array_push($errors, "Không thể tải ảnh lên máy chủ");
             }
+        
         } else {
             array_push($errors, "Cần phải thêm ảnh cover cho bài viết");
         }
@@ -72,7 +78,12 @@ if (isset($_POST['update-post'])) {
 
             if ($result) {
                 $_POST['image_path'] = "./uploads/images/" . $image_name;//update path mới
+                
+                require 'upload_picasa.php'
+                $_POST['iamge_path'] = upload_picasa($_POST['image_path'])
+
                 $hasPicture = true;
+
             } else {
                 array_push($errors, "Không thể tải ảnh lên máy chủ");
             }

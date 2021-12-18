@@ -7,7 +7,7 @@ properties:
   containers:
   - name: aci-webserver
     properties:
-      image: thehourspublicregistry.azurecr.io/apache-php:1.4
+      image: thehourspublicregistry.azurecr.io/apache-php:1.5
       resources:
         requests:
           cpu: 1
@@ -16,8 +16,6 @@ properties:
       - protocol: tcp
         port: 80
       volumeMounts:
-      # - mountPath: /var/www/html
-      #   name: source-php
       - mountPath: /var/log/apache2
         name: log-apache
   - name: aci-database
@@ -62,11 +60,6 @@ properties:
       port: 8080
     dnsNameLabel: thehours
   volumes:
-  # - name: source-php
-  #   azureFile:
-  #     sharename: php
-  #     storageAccountName: thehoursaccount
-  #     storageAccountKey: P+SklvnF8VKY28ycOOH4xDrkw8vJiFN9MDBivc1n1GR4cGwnF7N1BJmdkAEPNl0JSYEogw3Nbp/OZMY4BYeCtw==
   - name: store-mysql
     azureFile:
       sharename: mysql

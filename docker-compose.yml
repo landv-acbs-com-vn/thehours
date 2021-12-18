@@ -43,9 +43,4 @@ services:
     depends_on: 
       - db
     links: 
-<<<<<<< HEAD
       - db:db 
-=======
-      - db:db
-    
->>>>>>> 6dfca35458f26c07424c4c12d2dfe69350fc8009
