@@ -29,7 +29,7 @@ include("path.php");
         <div class="header">
             <a href="<?php echo BASE_URL ?>" class="thehours-logo">
                 <span class="main-title">TheHours</span>
-                <span class="sub-title">Tin tức nhanh nhất</span>
+                <span class="sub-title">Đoàn Vũ Lân</span>
             </a>
         </div>
         <!-- END header -->
